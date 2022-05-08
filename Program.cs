@@ -15,9 +15,9 @@ namespace Exercises2
             {
                 try
                 {
-                    Console.Write("Choose one: Calculator, Area");
-                    string choice = Console.ReadLine();
-                    if (choice.ToLower() == "calculator")
+                    Console.WriteLine("Choose one: Calculator, Area");
+                    string choice = Console.ReadLine().ToLower();
+                    if (choice == "calculator")
                     {
                         Calculator calculation = new Calculator();
                         Console.Write("Enter your first number: ");
@@ -27,7 +27,7 @@ namespace Exercises2
                         do
                         {
                             Console.WriteLine("Enter one of the following operators: +, -, *, / ");
-                            calculation.Operation = Console.ReadLine();
+                            calculation.Operation = Console.ReadLine().ToLower();
                         } while (!calculation.Valid());
                         calculation.calculation();
                     }
@@ -36,9 +36,21 @@ namespace Exercises2
                         Shapes shape = new Shapes();
                         do
                         {
-                            Console.Write("Enter a shape out of the following: Rectangle, Right-Angled Triangle or Circle");
-                            shape.Shape = Console.ReadLine();
+                            Console.WriteLine("Enter a shape out of the following: Rectangle, Right-Angled Triangle or Circle");
+                            shape.Shape = Console.ReadLine().ToLower();
                         } while (!shape.Valid());
+                        if(shape.Shape == "triangle" || shape.Shape == "rectangle")
+                        {
+                            Console.Write("Enter the length of your " + shape.Shape);
+                            shape.Length = Convert.ToDouble(Console.ReadLine());
+                            Console.Write("Enter the width of your " + shape.Shape);
+                            shape.Width = Convert.ToDouble(Console.ReadLine());
+                        }
+                        else
+                        {
+                            Console.Write("Enter the radius of your circle: ");
+                            shape.Length = Convert.ToDouble(Console.ReadLine());
+                        }
                         shape.Area();
                         shape.Perimeter();
                     }    
@@ -124,13 +136,25 @@ namespace Exercises2
         private double width;
         private string shape;
 
-        public double Length { get; set; }
-        public double Width { get; set; }
-        public string Shape { get; set; }
+        public double Length
+        {
+            get { return length; }
+            set { length = value; }
+        }
+        public double Width
+        {
+            get { return width; }
+            set { width = value; }
+        }
+        public string Shape
+        {
+            get { return shape; }
+            set { shape = value; }
+        }
 
         public bool Valid()
         {
-            if (shape.ToLower() == "triangle" || shape.ToLower() == "rectangle" || shape.ToLower() == "circle")
+            if (shape == "triangle" || shape == "rectangle" || shape == "circle")
             {
                 return true;
             }
@@ -143,15 +167,15 @@ namespace Exercises2
         public void Area()
         {
             double area;
-            if (shape.ToLower() == "rectangle")
+            if (shape == "rectangle")
             {
                 area = length * width;
             }
-            else if (shape.ToLower() == "triangle")
+            else if (shape == "triangle")
             {
                 area = 0.5 * length * width;
             }
-            else if (shape.ToLower() == "circle")
+            else if (shape == "circle")
             {
                 const double pi = Math.PI;
                 area = 0.5 * pi * length * length;
@@ -166,15 +190,15 @@ namespace Exercises2
         public void Perimeter()
         {
             double perimeter;
-            if (shape.ToLower() == "rectangle")
+            if (shape == "rectangle")
             {
                 perimeter = 2 * (length + width);
             }
-            else if (shape.ToLower() == "triangle")
+            else if (shape == "triangle")
             {
                 perimeter = (length + width) + Math.Sqrt((length * length) + (width * width));
             }
-            else if (shape.ToLower() == "circle")
+            else if (shape == "circle")
             {
                 const double pi = Math.PI;
                 perimeter = 2 * pi * length;
