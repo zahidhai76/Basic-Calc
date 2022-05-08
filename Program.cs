@@ -15,18 +15,35 @@ namespace Exercises2
             {
                 try
                 {
-                    Calculator calculation = new Calculator();
-                    Console.Write("Enter your first number: ");
-                    calculation.Number1 = int.Parse(Console.ReadLine());
-                    Console.Write("Enter your second number: ");
-                    calculation.Number2 = int.Parse(Console.ReadLine());
-                    do
+                    Console.Write("Choose one: Calculator, Area: ");
+                    string choice = Console.ReadLine();
+                    if (choice.ToLower() == "calculator")
                     {
-                        Console.WriteLine("Enter one of the following operators: +, -, *, / ");
-                        calculation.Operation = Console.ReadLine();
-                    } while (!calculation.Valid());
-                    calculation.calculation();
-                    calculation.Number1 = int.Parse(Console.ReadLine());
+                        Calculator calculation = new Calculator();
+                        Console.Write("Enter your first number: ");
+                        calculation.Number1 = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Enter your second number: ");
+                        calculation.Number2 = Convert.ToDouble(Console.ReadLine());
+                        do
+                        {
+                            Console.WriteLine("Enter one of the following operators: +, -, *, / ");
+                            calculation.Operation = Console.ReadLine();
+                        } while (!calculation.Valid());
+                        calculation.calculation();
+                    }
+                    else if (choice.ToLower() == "area")
+                    {
+                        Shapes shape = new Shapes();
+                        do
+                        {
+                            Console.Write("Enter a shape out of the following: Rectangle, Right-Angled Triangle or Circle");
+                            shape.Shape = Console.ReadLine();
+                        } while (!shape.Valid());
+                        shape.Area();
+                        shape.Perimeter();
+                    }    
+
+
                     finished = true;
                 }
                 catch (Exception e)
@@ -40,20 +57,26 @@ namespace Exercises2
 
     class Calculator
     {
-        private int number1;
-        private int number2;
+        private double number1;
+        private double number2;
         private string operation;
 
-        public int Number1
+        public double Number1
         {
             get { return number1; }
             set { number1 = value; }
         }
 
-        public int Number2
+        public double Number2
         {
             get { return number2; }
             set { number2 = value; }
+        }
+
+        public string Operation
+        {
+            get { return operation; }
+            set { operation = value; }
         }
 
         public bool Valid()
@@ -70,7 +93,7 @@ namespace Exercises2
 
         public void calculation()
         {
-            int result;
+            double result;
             if(operation == "+")
             {
                 result = number1 + number2;
@@ -93,11 +116,74 @@ namespace Exercises2
             }
             Console.WriteLine($"{number1} {operation} {number2} = {result}");
         }
+    }
 
-        public string Operation
+    class Shapes
+    {
+        private double length;
+        private double width;
+        private string shape;
+
+        public double Length { get; set; }
+        public double Width { get; set; }
+        public string Shape { get; set; }
+
+        public bool Valid()
         {
-            get { return operation; }
-            set { operation = value; }
+            if (shape.ToLower() == "triangle" || shape.ToLower() == "rectangle" || shape.ToLower() == "circle")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void Area()
+        {
+            double area;
+            if (shape.ToLower() == "rectangle")
+            {
+                area = length * width;
+            }
+            else if (shape.ToLower() == "triangle")
+            {
+                area = 0.5 * length * width;
+            }
+            else if (shape.ToLower() == "circle")
+            {
+                const double pi = Math.PI;
+                area = 0.5 * pi * length * length;
+            }
+            else
+            {
+                area = 0;
+            }
+            Console.WriteLine("The area of your shape is " + area);
+        }
+
+        public void Perimeter()
+        {
+            double perimeter;
+            if (shape.ToLower() == "rectangle")
+            {
+                perimeter = 2 * (length + width);
+            }
+            else if (shape.ToLower() == "triangle")
+            {
+                perimeter = (length + width) + Math.Sqrt((length * length) + (width * width));
+            }
+            else if (shape.ToLower() == "circle")
+            {
+                const double pi = Math.PI;
+                perimeter = 2 * pi * length;
+            }
+            else
+            {
+                perimeter = 0;
+            }
+            Console.WriteLine("The perimeter of your shape is " + perimeter);
         }
     }
 }
