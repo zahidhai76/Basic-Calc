@@ -17,45 +17,48 @@ namespace Exercises2
                 {
                     Console.WriteLine("Choose one: Calculator, Area");
                     string choice = Console.ReadLine().ToLower();
-                    if (choice == "calculator")
+                    while (choice != "calculator" && choice != "area")
                     {
-                        Calculator calculation = new Calculator();
-                        Console.Write("Enter your first number: ");
-                        calculation.Number1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Enter your second number: ");
-                        calculation.Number2 = Convert.ToDouble(Console.ReadLine());
-                        do
-                        {
-                            Console.WriteLine("Enter one of the following operators: +, -, *, / ");
-                            calculation.Operation = Console.ReadLine().ToLower();
-                        } while (!calculation.Valid());
-                        calculation.calculation();
+                        Console.WriteLine("Choose one: Calculator, Area");
+                        choice = Console.ReadLine().ToLower();
                     }
-                    else if (choice.ToLower() == "area")
-                    {
-                        Shapes shape = new Shapes();
-                        do
+                        if (choice == "calculator")
                         {
-                            Console.WriteLine("Enter a shape out of the following: Rectangle, Right-Angled Triangle or Circle");
-                            shape.Shape = Console.ReadLine().ToLower();
-                        } while (!shape.Valid());
-                        if(shape.Shape == "triangle" || shape.Shape == "rectangle")
-                        {
-                            Console.Write("Enter the length of your " + shape.Shape);
-                            shape.Length = Convert.ToDouble(Console.ReadLine());
-                            Console.Write("Enter the width of your " + shape.Shape);
-                            shape.Width = Convert.ToDouble(Console.ReadLine());
+                            Calculator calculation = new Calculator();
+                            Console.Write("Enter your first number: ");
+                            calculation.Number1 = Convert.ToDouble(Console.ReadLine());
+                            Console.Write("Enter your second number: ");
+                            calculation.Number2 = Convert.ToDouble(Console.ReadLine());
+                            do
+                            {
+                                Console.WriteLine("Enter one of the following operators: +, -, *, / ");
+                                calculation.Operation = Console.ReadLine().ToLower();
+                            } while (!calculation.Valid());
+                            calculation.calculation();
                         }
-                        else
+                        else if (choice.ToLower() == "area")
                         {
-                            Console.Write("Enter the radius of your circle: ");
-                            shape.Length = Convert.ToDouble(Console.ReadLine());
+                            Shapes shape = new Shapes();
+                            do
+                            {
+                                Console.WriteLine("Enter a shape out of the following: Rectangle, Triangle or Circle");
+                                shape.Shape = Console.ReadLine().ToLower();
+                            } while (!shape.Valid());
+                            if (shape.Shape == "triangle" || shape.Shape == "rectangle")
+                            {
+                                Console.WriteLine("Enter the length of your " + shape.Shape);
+                                shape.Length = Convert.ToDouble(Console.ReadLine());
+                                Console.WriteLine("Enter the width of your " + shape.Shape);
+                                shape.Width = Convert.ToDouble(Console.ReadLine());
+                            }
+                            else
+                            {
+                                Console.WriteLine("Enter the radius of your circle: ");
+                                shape.Length = Convert.ToDouble(Console.ReadLine());
+                            }
+                            shape.Area();
+                            shape.Perimeter();
                         }
-                        shape.Area();
-                        shape.Perimeter();
-                    }    
-
-
                     finished = true;
                 }
                 catch (Exception e)
