@@ -15,7 +15,7 @@ namespace Exercises2
             {
                 try
                 {
-                    Console.Write("Choose one: Calculator, Area: ");
+                    Console.Write("Choose one: Calculator, Area");
                     string choice = Console.ReadLine();
                     if (choice.ToLower() == "calculator")
                     {
