@@ -15,50 +15,63 @@ namespace Exercises2
             {
                 try
                 {
-                    Console.WriteLine("Choose one: Calculator, Area");
+                    Console.WriteLine("Choose one: Calculator, Area, Speed ");
                     string choice = Console.ReadLine().ToLower();
-                    while (choice != "calculator" && choice != "area")
+                    while (choice != "calculator" && choice != "area" && choice != "speed")
                     {
-                        Console.WriteLine("Choose one: Calculator, Area");
+                        Console.WriteLine("Choose one: Calculator, Area, Speed ");
                         choice = Console.ReadLine().ToLower();
                     }
-                        if (choice == "calculator")
+                    if (choice == "calculator")
+                    {
+                        Calculator calculation = new Calculator();
+                        Console.Write("Enter your first number: ");
+                        calculation.Number1 = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Enter your second number: ");
+                        calculation.Number2 = Convert.ToDouble(Console.ReadLine());
+                        do
                         {
-                            Calculator calculation = new Calculator();
-                            Console.Write("Enter your first number: ");
-                            calculation.Number1 = Convert.ToDouble(Console.ReadLine());
-                            Console.Write("Enter your second number: ");
-                            calculation.Number2 = Convert.ToDouble(Console.ReadLine());
-                            do
-                            {
-                                Console.WriteLine("Enter one of the following operators: +, -, *, / ");
-                                calculation.Operation = Console.ReadLine().ToLower();
-                            } while (!calculation.Valid());
-                            calculation.calculation();
-                        }
-                        else if (choice.ToLower() == "area")
+                            Console.WriteLine("Enter one of the following operators: +, -, *, / ");
+                            calculation.Operation = Console.ReadLine().ToLower();
+                        } while (!calculation.Valid());
+                        calculation.calculation();
+                    }
+                    else if (choice.ToLower() == "area")
+                    {
+                        Shapes shape = new Shapes();
+                        do
                         {
-                            Shapes shape = new Shapes();
-                            do
-                            {
-                                Console.WriteLine("Enter a shape out of the following: Rectangle, Triangle or Circle");
-                                shape.Shape = Console.ReadLine().ToLower();
-                            } while (!shape.Valid());
-                            if (shape.Shape == "triangle" || shape.Shape == "rectangle")
-                            {
-                                Console.WriteLine("Enter the length of your " + shape.Shape);
-                                shape.Length = Convert.ToDouble(Console.ReadLine());
-                                Console.WriteLine("Enter the width of your " + shape.Shape);
-                                shape.Width = Convert.ToDouble(Console.ReadLine());
-                            }
-                            else
-                            {
-                                Console.WriteLine("Enter the radius of your circle: ");
-                                shape.Length = Convert.ToDouble(Console.ReadLine());
-                            }
-                            shape.Area();
-                            shape.Perimeter();
+                            Console.WriteLine("Enter a shape out of the following: Rectangle, Triangle or Circle");
+                            shape.Shape = Console.ReadLine().ToLower();
+                        } while (!shape.Valid());
+                        if (shape.Shape == "triangle" || shape.Shape == "rectangle")
+                        {
+                            Console.WriteLine("Enter the length of your " + shape.Shape);
+                            shape.Length = Convert.ToDouble(Console.ReadLine());
+                            Console.WriteLine("Enter the width of your " + shape.Shape);
+                            shape.Width = Convert.ToDouble(Console.ReadLine());
                         }
+                        else
+                        {
+                            Console.WriteLine("Enter the radius of your circle: ");
+                            shape.Length = Convert.ToDouble(Console.ReadLine());
+                        }
+                        shape.Area();
+                        shape.Perimeter();
+                    }
+                    else if (choice.ToLower() == "speed")
+                    {
+                        SpeedCalc car = new SpeedCalc();
+                        Console.Write("Input distance(metres): ");
+                        car.Distance = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Input time (hour): ");
+                        car.Hour = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Input time (minutes): ");
+                        car.Min = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Input time (seconds): ");
+                        car.Sec = Convert.ToDouble(Console.ReadLine());
+                        car.speed();
+                    }
                     finished = true;
                 }
                 catch (Exception e)
@@ -96,7 +109,7 @@ namespace Exercises2
 
         public bool Valid()
         {
-            if(operation == "+" || operation == "-" || operation == "*" || operation == "/")
+            if (operation == "+" || operation == "-" || operation == "*" || operation == "/")
             {
                 return true;
             }
@@ -109,7 +122,7 @@ namespace Exercises2
         public void calculation()
         {
             double result;
-            if(operation == "+")
+            if (operation == "+")
             {
                 result = number1 + number2;
             }
@@ -213,4 +226,41 @@ namespace Exercises2
             Console.WriteLine("The perimeter of your shape is " + perimeter);
         }
     }
+
+    class SpeedCalc
+    {
+        private double distance, hour, min, sec, timeinseconds, mps, kph, mph;
+
+        public double Distance
+        {
+            get { return distance; }
+            set { distance = value; }
+        }
+        public double Hour
+        {
+            get { return hour; }
+            set { hour = value; }
+        }
+        public double Min
+        {
+            get { return min; }
+            set { min = value; }
+        }
+        public double Sec
+        {
+            get { return sec; }
+            set { sec = value; }
+        }
+        public void speed()
+        {
+            timeinseconds = (hour * 3600) + (min * 360) + sec;
+            mps = distance / timeinseconds;
+            kph = (distance / 1000) / (timeinseconds / 3600);
+            mph = kph / 1.609;
+            Console.WriteLine("Your speed in metres/sec is {0}", mps);
+            Console.WriteLine("Your speed in km/h is {0}", kph);
+            Console.WriteLine("Your speed in miles/h is {0}", mph);
+        }
+    }
+
 }
