@@ -88,6 +88,14 @@ namespace Exercises2
         private double number1;
         private double number2;
         private string operation;
+        /*enum operation
+        //{
+           plus,
+           minus,
+           divide,
+           multiply
+        };
+        */
 
         public double Number1
         {
@@ -109,6 +117,17 @@ namespace Exercises2
 
         public bool Valid()
         {
+            switch (operation)
+            {
+                case "+":
+                case "-":
+                case "*":
+                case "/":
+                    return true;
+                default:
+                    return false;
+            }
+            /*
             if (operation == "+" || operation == "-" || operation == "*" || operation == "/")
             {
                 return true;
@@ -117,11 +136,32 @@ namespace Exercises2
             {
                 return false;
             }
+            */
         }
 
         public void calculation()
         {
             double result;
+            switch (operation)
+            {
+                case "+":
+                    result = number1 + number2;
+                    break;
+                case "-":
+                    result = number1 - number2;
+                    break;
+                case "*":
+                    result = number1 * number2;
+                    break;
+                case "/":
+                    result = number1 / number2;
+                    break;
+                default:
+                    result = 0;
+                    break;
+            }
+
+            /*
             if (operation == "+")
             {
                 result = number1 + number2;
@@ -142,6 +182,7 @@ namespace Exercises2
             {
                 result = 0;
             }
+            */
             Console.WriteLine($"{number1} {operation} {number2} = {result}");
         }
     }
@@ -170,35 +211,35 @@ namespace Exercises2
 
         public bool Valid()
         {
-            if (shape == "triangle" || shape == "rectangle" || shape == "circle")
+            switch (shape)
             {
-                return true;
-            }
-            else
-            {
-                return false;
+                case "triangle":
+                case "rectangle":
+                case "circle":
+                    return true;
+                default:
+                    return false;
             }
         }
 
         public void Area()
         {
             double area;
-            if (shape == "rectangle")
+            switch (shape)
             {
-                area = length * width;
-            }
-            else if (shape == "triangle")
-            {
-                area = 0.5 * length * width;
-            }
-            else if (shape == "circle")
-            {
-                const double pi = Math.PI;
-                area = 0.5 * pi * length * length;
-            }
-            else
-            {
-                area = 0;
+                case "rectangle":
+                    area = length * width;
+                    break;
+                case "triangle":
+                    area = 0.5 * length * width;
+                    break;
+                case "circle":
+                    const double pi = Math.PI;
+                    area = 0.5 * pi * length * length;
+                    break;
+                default:
+                    area = 0;
+                    break;
             }
             Console.WriteLine("The area of your shape is " + area);
         }
@@ -206,22 +247,21 @@ namespace Exercises2
         public void Perimeter()
         {
             double perimeter;
-            if (shape == "rectangle")
+            switch (shape)
             {
-                perimeter = 2 * (length + width);
-            }
-            else if (shape == "triangle")
-            {
-                perimeter = (length + width) + Math.Sqrt((length * length) + (width * width));
-            }
-            else if (shape == "circle")
-            {
-                const double pi = Math.PI;
-                perimeter = 2 * pi * length;
-            }
-            else
-            {
-                perimeter = 0;
+                case "rectangle":
+                    perimeter = 2 * (length + width);
+                    break;
+                case "triangle":
+                    perimeter = (length + width) + Math.Sqrt((length * length) + (width * width));
+                    break;
+                case "circle":
+                    const double pi = Math.PI;
+                    perimeter = 2 * pi * length;
+                    break;
+                default:
+                    perimeter = 0;
+                    break;
             }
             Console.WriteLine("The perimeter of your shape is " + perimeter);
         }
