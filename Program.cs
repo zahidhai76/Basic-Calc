@@ -8,6 +8,12 @@ namespace Exercises2
 {
     class Program
     {
+        public enum choices
+        {
+            calculator = 1,
+            area = 2,
+            speed = 3
+        }
         static void Main(string[] args)
         {
             bool finished = false;
@@ -15,9 +21,11 @@ namespace Exercises2
             {
                 try
                 {
+                    
                     Console.WriteLine("Choose one: Calculator, Area, Speed ");
                     string choice = Console.ReadLine().ToLower();
-                    while (choice != "calculator" && choice != "area" && choice != "speed")
+                    while(!Enum.IsDefined(typeof(choices), choice))
+                    //while (choice != "calculator" && choice != "area" && choice != "speed")
                     {
                         Console.WriteLine("Choose one: Calculator, Area, Speed ");
                         choice = Console.ReadLine().ToLower();
