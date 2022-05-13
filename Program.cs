@@ -15,6 +15,13 @@ namespace Exercises2
             speed = 2,
             quadratic = 3
         }
+        public enum types
+        {
+            basic = 0,
+            quadratic = 1,
+            b = 2,
+            q = 3
+        }
         static void Main(string[] args)
         {
             bool finished = false;
@@ -30,19 +37,38 @@ namespace Exercises2
                         choice = Console.ReadLine().ToLower();
                     } while (!Enum.IsDefined(typeof(choices), choice)) ;
                         if (choice == "calculator")
-                    {
+                        {
                         Calculator calculation = new Calculator();
-                        Console.Write("Enter your first number: ");
-                        calculation.Number1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Enter your second number: ");
-                        calculation.Number2 = Convert.ToDouble(Console.ReadLine());
+                        string CalcType;
                         do
                         {
-                            Console.WriteLine("Enter one of the following operators: +, -, *, / ");
-                            calculation.Operation = Console.ReadLine().ToLower();
-                        } while (!calculation.Valid());
-                        calculation.calculation();
-                    }
+                            Console.WriteLine("Basic (b) or quadratic (q): ");
+                            CalcType = Console.ReadLine().ToLower();
+                        } while (!Enum.IsDefined(typeof(types), CalcType));
+                        if (CalcType == "b" || CalcType == "basic")
+                        {
+                            Console.Write("Enter your first number: ");
+                            calculation.number1 = Convert.ToDouble(Console.ReadLine());
+                            Console.Write("Enter your second number: ");
+                            calculation.number2 = Convert.ToDouble(Console.ReadLine());
+                            do
+                            {
+                                Console.WriteLine("Enter one of the following operators: +, -, *, / ");
+                                calculation.operation = Console.ReadLine().ToLower();
+                            } while (!calculation.Valid());
+                            calculation.calculation();
+                        } else
+                        {
+                            Console.Write("Enter the first co-efficient: ");
+                            calculation.a = Convert.ToDouble(Console.ReadLine());
+                            Console.Write("Enter the second co-efficient: ");
+                            calculation.b = Convert.ToDouble(Console.ReadLine());
+                            Console.Write("Enter the third co-efficient: ");
+                            calculation.c = Convert.ToDouble(Console.ReadLine());
+                            Console.WriteLine($"Your quadratic is the following: {calculation.a}x² + {calculation.b}x + {calculation.c}");
+                            calculation.roots(calculation.a, calculation.b, calculation.c);
+                        }
+                        }
                     else if (choice.ToLower() == "area")
                     {
                         Shapes shape = new Shapes();
@@ -81,15 +107,7 @@ namespace Exercises2
                     }
                     else if (choice.ToLower() == "quadratic")
                     {
-                        Quadratic quadratic = new Quadratic();
-                        Console.Write("Enter the first co-efficient: ");
-                        quadratic.a = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Enter the second co-efficient: ");
-                        quadratic.b = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Enter the third co-efficient: ");
-                        quadratic.c = Convert.ToDouble(Console.ReadLine());
-                        Console.WriteLine($"Your quadratic is the following: {quadratic.a}x² + {quadratic.b}x + {quadratic.c}");
-                        quadratic.roots(quadratic.a,quadratic.b,quadratic.c);
+
                     }
                     finished = true;
                 }
@@ -104,35 +122,12 @@ namespace Exercises2
 
     class Calculator
     {
-        private double number1;
-        private double number2;
-        private string operation;
-        /*enum operation
-        //{
-           plus,
-           minus,
-           divide,
-           multiply
-        };
-        */
-
-        public double Number1
-        {
-            get { return number1; }
-            set { number1 = value; }
-        }
-
-        public double Number2
-        {
-            get { return number2; }
-            set { number2 = value; }
-        }
-
-        public string Operation
-        {
-            get { return operation; }
-            set { operation = value; }
-        }
+        public double number1 { get; set; }
+        public double number2 { get; set; }
+        public string operation { get; set; }
+        public double a { get; set; }
+        public double b { get; set; }
+        public double c { get; set; }
 
         public bool Valid()
         {
@@ -146,18 +141,25 @@ namespace Exercises2
                 default:
                     return false;
             }
-            /*
-            if (operation == "+" || operation == "-" || operation == "*" || operation == "/")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            */
         }
 
+        public double discriminant(double a, double b, double c)
+        {
+            double disc = (b * b) - (4 * a * c);
+            return disc;
+        }
+
+        public void roots(double a, double b, double c)
+        {
+            if (discriminant(a, b, c) < 0)
+                Console.WriteLine("Roots are imaginary.");
+            else
+            {
+                double result1 = (-b + Math.Sqrt(discriminant(a, b, c))) / (2 * a);
+                double result2 = (-b - Math.Sqrt(discriminant(a, b, c))) / (2 * a);
+                Console.WriteLine($"The roots to your quadratic are {result1} and {result2}");
+            }
+        }
         public void calculation()
         {
             double result;
@@ -179,29 +181,6 @@ namespace Exercises2
                     result = 0;
                     break;
             }
-
-            /*
-            if (operation == "+")
-            {
-                result = number1 + number2;
-            }
-            else if (operation == "-")
-            {
-                result = number1 - number2;
-            }
-            else if (operation == "*")
-            {
-                result = number1 * number2;
-            }
-            else if (operation == "/")
-            {
-                result = number1 / number2;
-            }
-            else
-            {
-                result = 0;
-            }
-            */
             Console.WriteLine($"{number1} {operation} {number2} = {result}");
         }
     }
@@ -320,31 +299,5 @@ namespace Exercises2
             Console.WriteLine("Your speed in km/h is {0}", kph);
             Console.WriteLine("Your speed in miles/h is {0}", mph);
         }
-    }
-
-    class Quadratic
-    {
-        public double a { get; set; }
-        public double b { get; set; }
-        public double c { get; set; }
-
-        public double discriminant(double a, double b, double c)
-        {
-            double disc = (b * b) - (4 * a * c);
-            return disc;
-        }
-
-        public void roots(double a, double b, double c)
-        {
-            if (discriminant(a,b,c) < 0)
-                Console.WriteLine("Roots are imaginary.");
-            else
-            {
-                double result1 = (-b + Math.Sqrt(discriminant(a, b, c))) / (2 * a);
-                double result2 = (-b - Math.Sqrt(discriminant(a, b, c))) / (2 * a);
-                Console.WriteLine($"The roots to your quadratic are {result1} and {result2}");
-            }
-        }
-
     }
 }
