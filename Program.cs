@@ -10,9 +10,10 @@ namespace Exercises2
     {
         public enum choices
         {
-            calculator = 1,
-            area = 2,
-            speed = 3
+            calculator = 0,
+            area = 1,
+            speed = 2,
+            quadratic = 3
         }
         static void Main(string[] args)
         {
@@ -21,16 +22,14 @@ namespace Exercises2
             {
                 try
                 {
-                    
-                    Console.WriteLine("Choose one: Calculator, Area, Speed ");
-                    string choice = Console.ReadLine().ToLower();
-                    while(!Enum.IsDefined(typeof(choices), choice))
+                    string choice;
                     //while (choice != "calculator" && choice != "area" && choice != "speed")
+                    do 
                     {
-                        Console.WriteLine("Choose one: Calculator, Area, Speed ");
+                        Console.WriteLine("Choose one: Calculator, Area, Speed, Quadratic ");
                         choice = Console.ReadLine().ToLower();
-                    }
-                    if (choice == "calculator")
+                    } while (!Enum.IsDefined(typeof(choices), choice)) ;
+                        if (choice == "calculator")
                     {
                         Calculator calculation = new Calculator();
                         Console.Write("Enter your first number: ");
@@ -79,6 +78,18 @@ namespace Exercises2
                         Console.Write("Input time (seconds): ");
                         car.Sec = Convert.ToDouble(Console.ReadLine());
                         car.speed();
+                    }
+                    else if (choice.ToLower() == "quadratic")
+                    {
+                        Quadratic quadratic = new Quadratic();
+                        Console.Write("Enter the first co-efficient: ");
+                        quadratic.a = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Enter the second co-efficient: ");
+                        quadratic.b = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Enter the third co-efficient: ");
+                        quadratic.c = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine($"Your quadratic is the following: {quadratic.a}x² + {quadratic.b}x + {quadratic.c}");
+                        quadratic.roots(quadratic.a,quadratic.b,quadratic.c);
                     }
                     finished = true;
                 }
@@ -311,4 +322,29 @@ namespace Exercises2
         }
     }
 
+    class Quadratic
+    {
+        public double a { get; set; }
+        public double b { get; set; }
+        public double c { get; set; }
+
+        public double discriminant(double a, double b, double c)
+        {
+            double disc = (b * b) - (4 * a * c);
+            return disc;
+        }
+
+        public void roots(double a, double b, double c)
+        {
+            if (discriminant(a,b,c) < 0)
+                Console.WriteLine("Roots are imaginary.");
+            else
+            {
+                double result1 = (-b + Math.Sqrt(discriminant(a, b, c))) / (2 * a);
+                double result2 = (-b - Math.Sqrt(discriminant(a, b, c))) / (2 * a);
+                Console.WriteLine($"The roots to your quadratic are {result1} and {result2}");
+            }
+        }
+
+    }
 }
