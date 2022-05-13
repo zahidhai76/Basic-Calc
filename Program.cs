@@ -13,7 +13,9 @@ namespace Exercises2
             calculator = 0,
             area = 1,
             speed = 2,
-            quadratic = 3
+            c = 3,
+            a = 4,
+            s = 5
         }
         public enum types
         {
@@ -33,7 +35,7 @@ namespace Exercises2
                     //while (choice != "calculator" && choice != "area" && choice != "speed")
                     do 
                     {
-                        Console.WriteLine("Choose one: Calculator, Area, Speed, Quadratic ");
+                        Console.WriteLine("Choose one: Calculator (c), Area (a), Speed (s)");
                         choice = Console.ReadLine().ToLower();
                     } while (!Enum.IsDefined(typeof(choices), choice)) ;
                         if (choice == "calculator")
@@ -206,6 +208,7 @@ namespace Exercises2
             get { return shape; }
             set { shape = value; }
         }
+
 
         public bool Valid()
         {
