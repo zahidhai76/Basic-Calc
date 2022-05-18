@@ -15,7 +15,8 @@ namespace Exercises2
             speed = 2,
             c = 3,
             a = 4,
-            s = 5
+            s = 5,
+            series = 6
         }
         public enum types
         {
@@ -35,7 +36,7 @@ namespace Exercises2
                     //while (choice != "calculator" && choice != "area" && choice != "speed")
                     do 
                     {
-                        Console.WriteLine("Choose one: Calculator (c), Area (a), Speed (s)");
+                        Console.WriteLine("Choose one: Calculator (c), Area (a), Speed (s) or Series: ");
                         choice = Console.ReadLine().ToLower();
                     } while (!Enum.IsDefined(typeof(choices), choice)) ;
                         if (choice == "calculator")
@@ -107,9 +108,31 @@ namespace Exercises2
                         car.Sec = Convert.ToDouble(Console.ReadLine());
                         car.speed();
                     }
-                    else if (choice.ToLower() == "quadratic")
+                    else if (choice.ToLower() == "series")
                     {
-
+                        var result = 0.0;
+                        var fact = 0.0;
+                        Console.Write("Enter a number: ");
+                        int n = int.Parse(Console.ReadLine());
+                        for (int i = 0; i <= n; i++)
+                        {
+                            if (i == 0)
+                            {
+                                fact = 1;
+                            }
+                            else
+                            {
+                                fact *= i;
+                            }
+                            result += Math.Pow(n, i) / fact;
+                            if (i == 0)
+                            {
+                                Console.Write("1 ");
+                            }
+                            else
+                                Console.Write("{0}^{1}/{1}! ", n, i);
+                        }
+                        Console.WriteLine($"= {result}");
                     }
                     finished = true;
                 }
