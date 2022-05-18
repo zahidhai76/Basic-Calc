@@ -110,29 +110,10 @@ namespace Exercises2
                     }
                     else if (choice.ToLower() == "series")
                     {
-                        var result = 0.0;
-                        var fact = 0.0;
+                        series myObj = new series();
                         Console.Write("Enter a number: ");
-                        int n = int.Parse(Console.ReadLine());
-                        for (int i = 0; i <= n; i++)
-                        {
-                            if (i == 0)
-                            {
-                                fact = 1;
-                            }
-                            else
-                            {
-                                fact *= i;
-                            }
-                            result += Math.Pow(n, i) / fact;
-                            if (i == 0)
-                            {
-                                Console.Write("1 ");
-                            }
-                            else
-                                Console.Write("{0}^{1}/{1}! ", n, i);
-                        }
-                        Console.WriteLine($"= {result}");
+                        myObj.N = int.Parse(Console.ReadLine());
+                        myObj.SeriesCalc(myObj.N);
                     }
                     finished = true;
                 }
@@ -324,6 +305,40 @@ namespace Exercises2
             Console.WriteLine("Your speed in metres/sec is {0}", mps);
             Console.WriteLine("Your speed in km/h is {0}", kph);
             Console.WriteLine("Your speed in miles/h is {0}", mph);
+        }
+    }
+
+    class series
+    {
+        public static double result = 0.0;
+        public static double fact = 0.0;
+        public double N { get; set; }
+
+        public void SeriesCalc(double n)
+        {
+            for (int i = 0; i <= n; i++)
+            {
+                if (i == 0)
+                {
+                    fact = 1;
+                }
+                else
+                {
+                    fact *= i;
+                }
+                result += Math.Pow(n, i) / fact;
+                if (i == 0)
+                {
+                    Console.Write("1 + ");
+                }
+                else if (i == n)
+                {
+                    Console.Write("{0}^{1}/{1}! ", n, i);
+                }
+                else
+                    Console.Write("{0}^{1}/{1}! + ", n, i);
+            }
+            Console.WriteLine($"= {result}");
         }
     }
 }
