@@ -16,7 +16,10 @@ namespace Exercises2
             c = 3,
             a = 4,
             s = 5,
-            series = 6
+            series = 6,
+            prime = 7,
+            p = 7,
+            sr = 8
         }
         public enum types
         {
@@ -24,6 +27,14 @@ namespace Exercises2
             quadratic = 1,
             b = 2,
             q = 3
+        }
+
+        public enum primeChoices
+        {
+            check = 0,
+            sum = 1,
+            c = 2,
+            s = 3
         }
         static void Main(string[] args)
         {
@@ -36,10 +47,10 @@ namespace Exercises2
                     //while (choice != "calculator" && choice != "area" && choice != "speed")
                     do 
                     {
-                        Console.WriteLine("Choose one: Calculator (c), Area (a), Speed (s) or Series: ");
+                        Console.WriteLine("Choose one: Calculator (c), Area (a), Speed (s), Series (sr) or Prime (p): ");
                         choice = Console.ReadLine().ToLower();
                     } while (!Enum.IsDefined(typeof(choices), choice)) ;
-                        if (choice == "calculator")
+                        if (choice == "calculator" || choice == "c")
                         {
                         Calculator calculation = new Calculator();
                         string CalcType;
@@ -72,7 +83,7 @@ namespace Exercises2
                             calculation.roots(calculation.a, calculation.b, calculation.c);
                         }
                         }
-                    else if (choice.ToLower() == "area")
+                    else if (choice == "area" || choice == "a")
                     {
                         Shapes shape = new Shapes();
                         do
@@ -95,7 +106,7 @@ namespace Exercises2
                         shape.Area();
                         shape.Perimeter();
                     }
-                    else if (choice.ToLower() == "speed")
+                    else if (choice == "speed" || choice == "s")
                     {
                         SpeedCalc car = new SpeedCalc();
                         Console.Write("Input distance(metres): ");
@@ -108,14 +119,41 @@ namespace Exercises2
                         car.Sec = Convert.ToDouble(Console.ReadLine());
                         car.speed();
                     }
-                    else if (choice.ToLower() == "series")
+                    else if (choice == "series" || choice == "sr")
                     {
                         series myObj = new series();
                         Console.Write("Enter a number: ");
-                        myObj.N = int.Parse(Console.ReadLine());
-                        myObj.SeriesCalc(myObj.N);
+                        myObj.N = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Enter number of terms: ");
+                        myObj.terms = int.Parse(Console.ReadLine());
+                        myObj.SeriesCalc(myObj.N, myObj.terms);
                     }
-                    finished = true;
+                    else if (choice == "prime" || choice == "p")
+                    {
+                        Prime number = new Prime();
+                        string primeChoice;
+                        do
+                        {
+                            Console.WriteLine("Prime check (c) or prime sum (s): ");
+                            primeChoice = Console.ReadLine().ToLower();
+                        } while (!Enum.IsDefined(typeof(primeChoices), primeChoice));
+                        if (primeChoice == "check" || primeChoice == "c")
+                        {
+                            Console.Write("Enter a number: ");
+                            number.N = Convert.ToDouble(Console.ReadLine());
+                            number.PrimeCheck(number.N);
+                        }
+                        if(primeChoice == "sum" || primeChoice == "s")
+                        {
+                            Console.Write("Enter starting number of your range: ");
+                            number.x = int.Parse(Console.ReadLine());
+                            Console.Write("Enter ending number of your range: ");
+                            number.y = int.Parse(Console.ReadLine());
+                            number.PrimeSum(number.x, number.y);
+                        }
+
+                    }
+                        finished = true;
                 }
                 catch (Exception e)
                 {
@@ -246,7 +284,7 @@ namespace Exercises2
                     area = 0;
                     break;
             }
-            Console.WriteLine("The area of your shape is " + area);
+            Console.WriteLine("The area of your {0} is {1}", shape, area);
         }
 
         public void Perimeter()
@@ -268,7 +306,7 @@ namespace Exercises2
                     perimeter = 0;
                     break;
             }
-            Console.WriteLine("The perimeter of your shape is " + perimeter);
+            Console.WriteLine("The perimeter of your {0} is {1}", shape, perimeter);
         }
     }
 
@@ -313,10 +351,11 @@ namespace Exercises2
         public static double result = 0.0;
         public static double fact = 0.0;
         public double N { get; set; }
+        public double terms { get; set; }
 
-        public void SeriesCalc(double n)
+        public void SeriesCalc(double n, double terms)
         {
-            for (int i = 0; i <= n; i++)
+            for (int i = 0; i <= terms; i++)
             {
                 if (i == 0)
                 {
@@ -339,6 +378,58 @@ namespace Exercises2
                     Console.Write("{0}^{1}/{1}! + ", n, i);
             }
             Console.WriteLine($"= {result}");
+        }
+    }
+
+    class Prime
+    {
+        public double N { get; set; }
+        public static int ctr = 0;
+        public int x { get; set; }
+        public int y { get; set; }
+        public void PrimeCheck(double n)
+        {
+            for(int i = 2; i < n; i++)
+            {
+                if(n%i==0)
+                {
+                    ctr++;
+                    break;
+                }
+            }
+            if (ctr == 0 && n != 1)
+                Console.Write("{0} is a prime number.", n);
+            else
+                Console.Write("{0} is not a prime number.", n);
+        }
+
+        public void PrimeSum(int x, int y)
+        {
+            int n;
+            List<int> sum = new List<int>();
+            int sum1 = 0;
+            for(n = x; n <= y; n++)
+            {
+                ctr = 0;
+                for (int i = 2; i <= n/2; i++)
+                {
+                    if (n % i == 0)
+                    {
+                        ctr++;
+                        break;
+                    }
+                }
+                if (ctr == 0 && n != 1)
+                {
+                    Console.Write("{0} ", n);
+                    sum.Add(n);
+                }
+            }
+            foreach(int i in sum)
+            {
+                sum1 += i;
+            }
+            Console.WriteLine("\nThe sum of your primes is {0}", sum1);
         }
     }
 }
