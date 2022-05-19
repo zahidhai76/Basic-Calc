@@ -429,7 +429,7 @@ namespace Exercises2
             {
                 sum1 += i;
             }
-            Console.WriteLine("\nThe sum of your primes is {0}", sum1);
+            Console.WriteLine("\nThe sum of your primes is {0}.", sum1);
         }
     }
 }
